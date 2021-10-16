@@ -8,15 +8,11 @@
   padding: 0px;
   margin: 0px;
 }
-
-footer {
-  clear: both;
-}
-
-body {
+body, html, #app{
   height: 100%;
+}
+body {
   background-color: #f5f5f6;
-  min-width: 980px;
 }
 
 #app {
@@ -38,7 +34,6 @@ body {
 #nav a.router-link-exact-active {
   color: #42b983;
 }
-
 ::-webkit-scrollbar {
   width: 10px;
 }

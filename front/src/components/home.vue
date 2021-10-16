@@ -34,20 +34,20 @@
           <el-col class="aside-menu">
             <el-menu-item-group>
               <template #title>
-                <i class="el-icon-location"></i>
-                <span>Navigator One</span>
+                <span>icone de eventos</span>
+                  <div id="app">
+                  <font-awesome-icon icon="user-secret" />
+                  </div>
               </template>
             </el-menu-item-group>
             <el-menu-item-group>
               <template #title>
-                <i class="el-icon-location"></i>
-                <span>Navigator One</span>
+                <span>icone de usuario</span>
               </template>
             </el-menu-item-group>
             <el-menu-item-group>
               <template #title>
-                <i class="el-icon-location"></i>
-                <span>Navigator One</span>
+               <span>icone de convites</span>
               </template>
             </el-menu-item-group>
           </el-col>
@@ -113,6 +113,8 @@ export default defineComponent({
   flex-direction: column;
   justify-content: space-between;
   height: 100vh;
+  padding-top: 25vh;
+  padding-bottom: 45vh;
 
 }
 .borgar-menu {
@@ -130,4 +132,5 @@ export default defineComponent({
   visibility: visible;
 }
 }
+
 </style>
