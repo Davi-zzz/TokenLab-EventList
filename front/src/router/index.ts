@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from "vue-router";
 import Home from "../components/home.vue";
 import Login from "../components/login.vue";
 import Register from "../components/register.vue";
+import Event from "../components/event.vue";
 import Page404 from "../components/page404.vue";
 
 
@@ -26,6 +27,12 @@ const routes = [
     name: "home",
     component: Home,
   },
+  {
+    path: "/event",
+    name: "event",
+    component: Event,
+  },
+
   // {
   //   path: "*",
   //   name: '404',

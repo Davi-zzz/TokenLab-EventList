@@ -1,136 +1,104 @@
 <template>
-  <el-container class="top-bar" style="z-index: 10000">
-    <el-header>
-      <el-row :gutter="2" justify="space-between" align="center">
-        <el-col :span="12" :sm="4" :md="1" type="flex" align="left">
-          
-        <el-icon class="borgar-menu">
-          <i class="el-icon-menu" style="font-size: 25px"></i>
-          
-        </el-icon>
-        </el-col>
-        <el-col  :span="12" type="flex" align="right" :sm="4" :md="2">
-          <el-dropdown align="right">
-            <i class="el-icon-setting" style="margin-right: 15px"></i>
-            <template #dropdown>
-              <el-dropdown-menu>
-                <el-dropdown-item>View</el-dropdown-item>
-                <el-dropdown-item>Add</el-dropdown-item>
-                <el-dropdown-item>Delete</el-dropdown-item>
-              </el-dropdown-menu>
-            </template>
-          </el-dropdown>
-          <span>Tom</span>
-        </el-col>
-      </el-row>
-    </el-header>
+  <top-bar/>
+  <el-container >
     <el-container style="border: 1px solid #eee">
-      <el-aside
-        width="80px"
-        class="side-menu"
-        style="background-color: rgb(238, 241, 246)"
-      >
-        <el-menu :default-openeds="['1', '3']" style="height: 100%">
-          <el-col class="aside-menu">
-            <el-menu-item-group>
-              <template #title>
-                <span>icone de eventos</span>
-                  <div id="app">
-                  <font-awesome-icon icon="user-secret" />
-                  </div>
-              </template>
-            </el-menu-item-group>
-            <el-menu-item-group>
-              <template #title>
-                <span>icone de usuario</span>
-              </template>
-            </el-menu-item-group>
-            <el-menu-item-group>
-              <template #title>
-               <span>icone de convites</span>
-              </template>
-            </el-menu-item-group>
-          </el-col>
-        </el-menu>
-      </el-aside>
+     <side-menu/>
       <el-container>
-        <el-main style="margin-left: 100px; margin-top: 10px">
-          <el-table :data="tableData">
-            <el-table-column prop="date" label="Date" width="140">
-            </el-table-column>
-            <el-table-column prop="name" label="Name" width="120">
-            </el-table-column>
-            <el-table-column prop="address" label="Address"> </el-table-column>
-          </el-table>
-        </el-main>
+        <el-calendar class="calendar-frame" v-model="value">
+          <template #dateCell="{ data }" >
+            <p @click="dialogVisible = true" :class="data.isSelected ? 'is-selected' : '' ">
+              {{ data.day.split("-").slice(2).join("-") }}
+              {{ data.day === new Date().toJSON().split("T").shift() ? "asda" : " "  }}
+              <span  v-if="data.isSelected" >
+              🟢
+               </span>
+            </p>
+            <!-- <p v-if="events.include(data.day)" @click="dialogVisible = true" :class="data.isSelected ? 'is-selected' : '' ">
+              {{ data.day.split("-").slice(2).join("-") }}
+              {{ data.day === new Date().toJSON().split("T").shift() ? "asda" : " "  }}
+              <span  v-if="data.isSelected" >
+              🟢
+               </span>
+            </p> -->
+            
+          </template>
+        </el-calendar>
       </el-container>
+      <el-dialog
+    v-model="dialogVisible"
+    title="Tips"
+    width="30%"
+    :before-close="handleClose"
+  >
+    <span>This is a message</span>
+    <template #footer>
+      <span class="dialog-footer">
+        <el-button @click="dialogVisible = false">Cancel</el-button>
+        <el-button type="primary" @click="dialogVisible = false"
+          >Confirm</el-button
+        >
+      </span>
+    </template>
+  </el-dialog>
     </el-container>
   </el-container>
 </template>
 
 <script lang="ts">
 import { defineComponent, ref } from "vue";
-
+import { ElMessageBox } from 'element-plus'
+import api from "../utils/api";
+import topBar from "./top-bar.vue";
+import SideMenu from "./side-menu.vue";
 export default defineComponent({
+  components: { topBar, SideMenu },
   setup() {
-    const item = {
-      date: "2016-05-02",
-      name: "Tom",
-      address: "No. 189, Grove St, Los Angeles",
-    };
+    const value = ref(new Date());
+    let eventList:string[] = [''];
+    const dialogVisible = ref(false);
 
-    const tableData = ref(Array(20).fill(item));
+    const handleClose = (done: () => void) => {
+      ElMessageBox.confirm("Are you sure to close this dialog?")
+        .then(() => {
+          done();
+        })
+        .catch(() => {
+          // catch error
+        });
+    };
 
     return {
-      tableData,
+      value,
+      dialogVisible,
+      handleClose,
+      eventList,
     };
   },
+  async created() {
+    this.eventList = await this.events(); 
+  },
+    methods: {
+      events: async ():Promise<string[]> => {
+        //todo
+        return await api.get(`/events/user/`);
+      }
+    }
 });
 </script>
 
-<style>
+<style scoped>
+.is-selected {
+  color: #1989fa;
+}
 .el-header {
   background-color: #b3c0d1;
   color: var(--el-text-color-primary);
   line-height: 60px;
 }
-.side-menu {
-  height: 100vh;
-  position: fixed;
-  top: 0;
-  left: 0;
-}
-.top-bar {
-  width: 100%;
-  position: fixed;
-}
-.el-aside {
-  color: var(--el-text-color-primary);
-
-}
-.aside-menu {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  height: 100vh;
-  padding-top: 25vh;
-  padding-bottom: 45vh;
-
-}
-.borgar-menu {
-  display: none;
-  visibility: hidden;
-  /* align-items: flex-start; */
-}
-@media (max-width: 600px) {
-  .el-aside {
-    display: none;
-  }
-  .borgar-menu {
-  display: flex;
-  align-items: flex-start;
-  visibility: visible;
-}
+.calendar-frame {
+  margin-left: 100px;
+  margin-top: 10px;
+  margin-right: 20px;
 }
 
 </style>

@@ -76,7 +76,7 @@ export default defineComponent({
   },
 });
 </script>
-<style>
+<style scoped>
 * {
   box-sizing: border-box;
   padding: 0px;
