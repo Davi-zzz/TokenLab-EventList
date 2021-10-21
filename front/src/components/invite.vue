@@ -5,7 +5,11 @@
       <el-table-column label="Date">
         <template #default="scope">
           <i class="el-icon-time"></i>
-          <span style="margin-left: 10px">{{ scope.row.date }}</span>
+          ST:
+          <span style="margin-left: 10px">{{ scope.row.date_start.replace('T', ' ') }}</span>
+          -
+          FT:
+          <span style="margin-left: 10px">{{ scope.row.date_finish.replace('T', ' ') }}</span>
         </template>
       </el-table-column>
       <el-table-column label="Name">
@@ -56,32 +60,32 @@ export default defineComponent({
     return {
       tableData: [
         {
-          date_start: "2016-05-03",
-          date_finish: "2016-05-03",
+          date_start: "2021-10-06T22:02",
+          date_finish: "2021-10-06T22:02",
           name: "Tom",
           desc: "No. 189, Grove St, Los Angeles",
           guests: ["fulano", "ditano", "madrugano"],
           status: 0,
         },
         {
-          date_start: "2016-05-03",
-          date_finish: "2016-05-03",
+          date_start: "2021-10-06T22:02",
+          date_finish: "2021-10-06T22:02",
           name: "Tom",
           desc: "No. 189, Grove St, Los Angeles",
           guests: ["fulano", "ditano", "madrugano"],
           status: 1,
         },
         {
-          date_start: "2016-05-03",
-          date_finish: "2016-05-03",
+          date_start: "2021-10-06T22:02",
+          date_finish: "2021-10-06T22:02",
           name: "Tom",
           desc: "No. 189, Grove St, Los Angeles",
           guests: ["fulano", "ditano", "madrugano"],
           status: 1,
         },
         {
-          date_start: "2016-05-03",
-          date_finish: "2016-05-03",
+          date_start: "2021-10-06T22:02",
+          date_finish: "2021-10-06T22:02",
           name: "Tom",
           desc: "No. 189, Grove St, Los Angeles",
           guests: ["fulano", "ditano", "madrugano"],

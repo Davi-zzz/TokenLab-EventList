@@ -20,6 +20,9 @@
       <el-drawer :size="150" v-model="drawer" title="I am the title" :with-header="false" :direction="direction">
       <h2>Menu</h2>
       <el-menu>
+        <el-menu-item @click="redirect(0)">
+          Home
+        </el-menu-item>
         <el-menu-item @click="redirect(1)">
           Events
         </el-menu-item>
@@ -54,6 +57,8 @@ export default defineComponent({
     },
      redirect(key:number) {
       switch (key) {
+        case 0:
+          return this.$router.push('/');
         case 1:
           return this.$router.push('event');
         case 2:

@@ -20,33 +20,36 @@
                 >Add new Event</el-button>
             </el-button-group>
           </template>
-          <template #dateCell="{ data }">
+          <template #dateCell="{ data }" >
             <p
-              @click="dialogVisible = true"
+              @click="dialogVisible = true, verifyData(data.day)"
               :class="data.isSelected ? 'is-selected' : ''"
             >
               {{ data.day.split("-").slice(2).join("-") }}
               {{
-                data.day === new Date().toJSON().split("T").shift()
-                  ? "asda"
-                  : " "
+                 setAux(eventList.find(item => item.start.split('T').shift() === data.day)) ? "sim" : " "
+                 
               }}
-              <span v-if="data.isSelected"> 🟢 </span>
             </p>
           </template>
         </el-calendar>
       </el-container>
       <el-dialog
         v-model="dialogVisible"
-        title="Tips"
+        title="Events of the Day"
         width="30%"
       >
-        <span>This is a message</span>
+        <div  v-for="item in eventsOfDay" :key="item.name">
+          <hr>
+          <h2 class="label">{{item.name}}</h2>
+          <h3 class="label">Duration: {{`ST: ${item.start.replace('T', ' ')} | FT: ${item.end.replace('T', ' ')}`}}</h3>
+          <h3 class="label">Description: {{item.description}}</h3>
+          <hr>
+        </div>
         <template #footer>
           <span class="dialog-footer">
-            <el-button @click="dialogVisible = false">Cancel</el-button>
             <el-button type="primary" @click="dialogVisible = false"
-              >Confirm</el-button
+              >Okay</el-button
             >
           </span>
         </template>
@@ -64,9 +67,10 @@ export default defineComponent({
   components: { topBar, SideMenu },
   setup() {
     const calendar = ref();
-    let eventList: string[] = [""];
+    const eventList:any = [{}];
     const dialogVisible = ref(false);
-
+    let aux;
+    let eventsOfDay = [{}];
     const selectDate = (val: string) => {
       calendar.value.selectDate(val);
     }
@@ -74,11 +78,14 @@ export default defineComponent({
       calendar,
       dialogVisible,
       eventList,
-      selectDate
+      selectDate,
+      aux,
+      eventsOfDay
     };
   },
   async created() {
-    this.eventList = await this.events();
+    this.eventList = await this.fillEventList();
+  
   },
   methods: {
     events: async (): Promise<string[]> => {
@@ -96,6 +103,35 @@ export default defineComponent({
         default:
           break;
       }
+    },
+    verifyData(data:any){
+      this.eventsOfDay = this.eventList.filter((item:any) => item.start.split('T').shift() === data);
+    },
+    async fillEventList(){
+      return this.eventList = [
+        {
+          "start": "2021-10-06T22:02",
+          "end": "2021-10-06T22:02",
+          "name": "lettuce recipes",
+          "description": "a food lesson about cook delicious dishes with lettuce"
+        },
+        {
+          "start": "2021-10-08T22:02",
+          "end": "2021-10-06T22:02",
+          "name": "another lettuce recipes",
+          "description": "a food lesson about cook delicious dishes with lettuce"
+        }
+      ]
+    },
+    setAux(any:any){
+      return this.aux = any;
+    },
+    searchByMoreEvents(aux:any){
+
+      // console.log( aux);
+      this.eventsOfDay = this.eventList.filter((item:any) => item.start.split('T').shift() === aux.start.split('T').shift());
+      return '🟢'
+      
     }
   },
 });
@@ -114,5 +150,9 @@ export default defineComponent({
   margin-left: 100px;
   margin-top: 10px;
   margin-right: 20px;
+}
+.label {
+  padding-top: 25px;
+  width: 100%
 }
 </style>

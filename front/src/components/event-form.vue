@@ -12,14 +12,36 @@
         <el-row>
           <div class="block" style="width: 100%">
             <p class="label" for="start_time">Start Time (date and time):</p>
-            <input class="datepicker" type="datetime-local" v-model="start" name="start_time">
+            <input
+              class="datepicker"
+              type="datetime-local"
+              v-model="start"
+              name="start_time"
+            />
           </div>
         </el-row>
         <el-row>
           <div class="block" style="width: 100%">
             <p class="label" for="end_time">End Time (date and time):</p>
-            <input class="datepicker" type="datetime-local" v-model="end" name="end_time">
+            <input
+              class="datepicker"
+              type="datetime-local"
+              v-model="end"
+              name="end_time"
+            />
           </div>
+        </el-row>
+        <el-row>
+          <p class="label">Event Guests:</p> 
+          <el-select class="centralized-flex" size="large" v-model="guests" multiple filterable placeholder="Select">
+            <el-option
+              v-for="item in peoples"
+              :key="item.id"
+              :label="item.email"
+              :value="item.id"
+            >
+            </el-option>
+          </el-select>
         </el-row>
         <el-row>
           <p class="label">Event Description:</p>
@@ -32,7 +54,14 @@
           />
         </el-row>
         <el-row class="centralized-flex">
-          <el-button class="centralized-flex" style="margin-top: 20px" @click="save" type="primary" round>Send</el-button>
+          <el-button
+            class="centralized-flex"
+            style="margin-top: 20px"
+            @click="save"
+            type="primary"
+            round
+          >Save</el-button
+          >
         </el-row>
       </el-col>
     </span>
@@ -52,7 +81,7 @@
 .main-card {
   position: relative;
 }
-.centralized-flex{
+.centralized-flex {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -74,44 +103,78 @@
 }
 .label {
   padding-top: 25px;
+  width: 100%
 }
 /* //todo */
 @media (max-width: 600px) {
 }
-.datepicker{
+.datepicker {
   -webkit-appearance: none;
-    background-color: var(--el-input-background-color,var(--el-color-white));
-    background-image: none;
-    border-radius: var(--el-input-border-radius,var(--el-border-radius-base));
-    border: var(--el-input-border,var(--el-border-base));
-    box-sizing: border-box;
-    color: var(--el-input-font-color,var(--el-text-color-regular));
-    display: inline-block;
-    font-size: inherit;
-    height: 40px;
-    line-height: 40px;
-    outline: 0;
-    padding: 0 15px;
-    transition: var(--el-transition-border);
-    width: 100%;
+  background-color: var(--el-input-background-color, var(--el-color-white));
+  background-image: none;
+  border-radius: var(--el-input-border-radius, var(--el-border-radius-base));
+  border: var(--el-input-border, var(--el-border-base));
+  box-sizing: border-box;
+  color: var(--el-input-font-color, var(--el-text-color-regular));
+  display: inline-block;
+  font-size: inherit;
+  height: 40px;
+  line-height: 40px;
+  outline: 0;
+  padding: 0 15px;
+  transition: var(--el-transition-border);
+  width: 100%;
 }
 </style>
 <script lang="ts">
 import { defineComponent, ref } from "vue";
-import api from "../utils/api"
+// import api from "../utils/api";
 export default defineComponent({
+  async created() {
+    await this.fillPeoples();
+    
+  },
   setup() {
     return {
       name: ref(""),
       description: ref(""),
       start: ref(""),
-      end: ref("")
-    }
+      end: ref(""),
+      peoples: ref([ {
+          id: 2,
+          first_name: "asdasd",
+          email: "davismoraes.0001@gmail.com",
+        },
+        {
+          id: 3,
+          first_name: "asdasd",
+          email: "emulabr.stinkie@gmail.com",
+        },]),
+      guests: ref("")
+    };
   },
   methods: {
-    async save(){
-      await api.post("");
+    async save() {
+      // await api.post("");
+      console.log(this.guests);
+      
+    },
+    async fillPeoples() {
+      //todo
+      // this.peoples = await api.get("/users/all");
+      this.peoples = [
+        {
+          id: 2,
+          first_name: "asdasd",
+          email: "davismoraes.0001@gmail.com",
+        },
+        {
+          id: 3,
+          first_name: "asdasd",
+          email: "emulabr.stinkie@gmail.com",
+        },
+      ];
+    },
   },
-  }
 });
 </script>

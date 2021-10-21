@@ -2,6 +2,11 @@
   <el-aside width="80px" class="side-menu">
     <el-menu style="height: 100%">
       <el-col class="aside-menu">
+        <el-menu-item  @click="redirect(0)" class="item-menu">
+          <div class="menu-button block">
+            <h4 class="label">Home</h4>
+          </div>
+        </el-menu-item>
         <el-menu-item  @click="redirect(1)" class="item-menu">
           <div class="menu-button block">
             <h4 class="label">Events</h4>
@@ -27,6 +32,8 @@ export default defineComponent({
   methods: {
     redirect(key:number) {
       switch (key) {
+        case 0:
+          return this.$router.push('/');
         case 1:
           return this.$router.push('event');
         case 2:
