@@ -14,7 +14,7 @@ const guestsController = Container.get(GuestsController)
 const loginController = Container.get(LoginController)
 
 // user routes
-router.post('/user', usersController.createUser)
+
 router.get('/user/:id', authMiddleware, usersController.getUser)
 router.get('/user', authMiddleware, usersController.getUsers)
 router.delete('/user/:id', authMiddleware, usersController.deleteUser)
@@ -35,7 +35,7 @@ router.put('/guest/invites/:id', authMiddleware, guestsController.acceptInvite)
 router.delete('/guest/invites/:id', authMiddleware, guestsController.declineInvite)
 router.post('/guest/reject/id', authMiddleware, guestsController.rejectInvite)
 
-// login route
+// auth route
 router.post('/login', loginController.login)
-
+router.post('/register', usersController.createUser)
 export default router

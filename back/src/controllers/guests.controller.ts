@@ -22,6 +22,7 @@ export default class guestsController {
     if (input) return res.json(await this.guestsService.getGuestsByEvent(input))
   };
 
+  // get my invites
   getGuestInvites = async (req: Request, res: Response): Promise<Guests> => {
     const input = await validationHandler(req, res, GuestsUserDTO)
     if (input) return res.json(await this.guestsService.getGuestInvites(input))

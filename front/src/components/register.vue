@@ -7,25 +7,24 @@
           </el-row>
           <el-row>
             <span class="label">First name: </span>
-          <el-input class="input" v-model="clear_input" placeholder="Please input your first name" clearable />
+          <el-input class="input" v-model="fn" placeholder="Please input your first name" clearable />
           </el-row>
           <el-row>
             <span class="label">Last name: </span>
-          <el-input class="input" v-model="clear_input" placeholder="Please input your last name" clearable />
+          <el-input class="input" v-model="ln" placeholder="Please input your last name" clearable />
           </el-row>
           <el-row>
             <span class="label">Email: </span>
-          <el-input class="input" v-model="clear_input" placeholder="Please input your email" clearable />
+          <el-input class="input" v-model="email" placeholder="Please input your email" clearable />
           </el-row>
           <el-row type="flex">
              <span class="label">Password: </span>
-              <el-input class="input" validate-event="'required'" v-model="show_passwd" placeholder="Please input password" show-password />
+              <el-input class="input" validate-event="'required'" v-model="passwd" placeholder="Please input password" show-password />
           </el-row>
           <el-row type="flex">
              <span class="label">Confirm Password: </span>
-              <el-input class="input" validate-event="'required|target:show_passwd'" v-model="show_passwd_confirm" placeholder="confirm password" show-password />
+              <el-input class="input" validate-event="'required|target:passwd'" v-model="show_passwd_confirm" placeholder="confirm password" show-password />
           </el-row>
-          //todo
           <el-row style="margin-top: 20px;" type="flex" align="center" justify="center">
               <el-button  @click="register" type="primary" round>Register</el-button>
           </el-row>
@@ -45,15 +44,26 @@ import api from "../utils/api";
 export default defineComponent({
   setup() {
     return {
-      clear_input: ref(''),
-      show_passwd: ref(''),
+      email: ref(''),
+      passwd: ref(''),
+      ln: ref(''),
+      fn: ref(''),
       show_passwd_confirm: ref('')
     };
   },
   methods: {
     async register(){
-      const result = await api.post("http://");
-      return result;
+      const result = await api.post("/register", {
+        firstName: this.fn,
+        lastName: this.ln,
+        email: this.email,
+        password: this.passwd
+
+      });
+      if (result.data.error) {
+        window.alert(result.data.message)
+      }
+      return this.$router.push('login');
     },
     login(){
       return this.$router.push('login');
@@ -68,42 +78,33 @@ export default defineComponent({
   padding: 0px;
   margin: 0px;
 }
-body, html, #app{
+.component-body {
   height: 100%;
-}
-body {
   background-color: #f5f5f6;
+  background-image: url("../assets/undraw_events.svg");
+  background-repeat: no-repeat;
+  background-position: bottom right;
+  background-size: 550px;
 }
-
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  color: #2c3e50;
+.main-card {
+  position: relative;
 }
-
-#nav {
-  padding: 30px;
+.main-card {
+  background: white;
+  margin: 0;
+  position: absolute; /* 2 */
+  top: 50%; /* 3 */
+  transform: translate(0, -50%);
+  box-shadow: 5px 7px 8px 1px rgba(24, 24, 24, 0.4);
 }
-
-#nav a {
-  font-weight: bold;
-  color: #2c3e50;
+.form-wrapper {
+  padding: 35px;
+  border-radius: 25px;
 }
-
-#nav a.router-link-exact-active {
-  color: #42b983;
+.input {
+  margin-top: 10px;
 }
-::-webkit-scrollbar {
-  width: 10px;
-}
-
-::-webkit-scrollbar-track {
-  background: #f5f5f6;
-}
-
-::-webkit-scrollbar-thumb {
-  background: #a3a3a3;
-  border-radius: 20px;
+.label {
+  padding-top: 25px;
 }
 </style>

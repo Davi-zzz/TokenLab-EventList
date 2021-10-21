@@ -9,7 +9,7 @@
           <span class="label">Email: </span>
           <el-input
             class="input"
-            v-model="clear_input"
+            v-model="email"
             placeholder="Please input"
             clearable
           />
@@ -18,7 +18,7 @@
           <span class="label">Password: </span>
           <el-input
             class="input"
-            v-model="show_input"
+            v-model="passwd"
             placeholder="Please input password"
             show-password
           />
@@ -42,7 +42,7 @@
           justify="center"
         >
           <el-button @click="register" type="text">Register</el-button>
-          <el-button type="primary" round>Sign in</el-button>
+          <el-button type="primary" @click="login()" round>Sign in</el-button>
         </el-row>
       </el-col>
     </span>
@@ -61,8 +61,8 @@ export default defineComponent({
     const tableData = ref(Array(20).fill(item));
     return {
       tableData,
-      clear_input: ref(""),
-      show_input: ref(""),
+      email: ref(""),
+      passwd: ref(""),
     };
   },
   methods: {
@@ -70,8 +70,17 @@ export default defineComponent({
       return this.$router.push("register");
     },
     async login() {
-      const result = await api.post("http://");
-      return result;
+      const result = await api.post("/login", {
+        email: this.email,
+        password: this.passwd
+      });
+      if (result.data.error) {
+        window.alert(result.data.message)
+      }
+      localStorage.setItem('token', result.data.token);
+      localStorage.setItem('user_id', result.data.userId);
+
+      return this.$router.push('/');
     },
   },
 });

@@ -15,7 +15,7 @@
               </el-dropdown-menu>
             </template>
           </el-dropdown>
-          <span>{{ getUser() }}</span>
+          <span>{{ username != null ? username : 'todo' }}</span>
         </el-col>
       <el-drawer :size="150" v-model="drawer" title="I am the title" :with-header="false" :direction="direction">
       <h2>Menu</h2>
@@ -38,21 +38,29 @@
     </el-header>
 </template>
 <script lang="ts">
+// import api from "@/utils/api";
 import { defineComponent,ref} from "vue";
 export default defineComponent({
+created(){
+  this.getUser();
+},
   setup(){
+    let username:any;
     return{ 
     drawer: ref(false),
-    direction: ref('ltr')
+    direction: ref('ltr'),
+    username
     }
   },
   methods: {
-    getUser() {
+    async getUser() {
+      console.log(this.username);
       
-      return "something";
     },
     logout(){
       //todo
+      localStorage.setItem('token', '');
+      localStorage.setItem('user_id', '');
       return this.$router.push('login');
     },
      redirect(key:number) {

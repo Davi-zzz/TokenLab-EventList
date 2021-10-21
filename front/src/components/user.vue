@@ -10,7 +10,7 @@
         <el-row class="photo">
           <h3 class="label photo">Photo:</h3>
           <el-image
-            :src="`https://ui-avatars.com/api/?background=random&color=fff&name=${user_name}`"
+            :src="`https://ui-avatars.com/api/?background=random&color=fff&name=${'davi moraes'}`"
             class="photo"
             style="height: 80px; width: 80px"
           ></el-image>

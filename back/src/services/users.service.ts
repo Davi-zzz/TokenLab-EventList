@@ -9,7 +9,8 @@ export default class UsersService {
     if (user) {
       return { error: true, name: 'API Users Error', message: 'User already exists' }
     }
-    return await Users.create({ ...data }).save()
+    const createdUser = await Users.create({ ...data }).save()
+    return { ...createdUser, password: 'secret' }
   };
 
   getUser = async (data): Promise<Users | Ierror> => {

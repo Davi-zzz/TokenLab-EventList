@@ -5,8 +5,8 @@
       <side-menu />
       <el-container>
         <el-calendar class="calendar-frame" ref="calendar" v-model="value">
-          <template #header="{date}">
-            <span>{{date}}</span>
+          <template #header="{ date }">
+            <span>{{ date }}</span>
             <el-button-group>
               <el-button size="mini" @click="selectDate('prev-month')"
                 >Previous Month</el-button
@@ -16,35 +16,48 @@
               >
             </el-button-group>
             <el-button-group>
-               <el-button style="background: blue; color: white" size="mini" @click="redirect(1)"
-                >Add new Event</el-button>
+              <el-button
+                style="background: blue; color: white"
+                size="mini"
+                @click="redirect(1)"
+                >Add new Event</el-button
+              >
             </el-button-group>
           </template>
-          <template #dateCell="{ data }" >
+          <template #dateCell="{ data }">
             <p
-              @click="dialogVisible = true, verifyData(data.day)"
+              @click="(dialogVisible = true), verifyData(data.day)"
               :class="data.isSelected ? 'is-selected' : ''"
             >
               {{ data.day.split("-").slice(2).join("-") }}
               {{
-                 setAux(eventList.find(item => item.start.split('T').shift() === data.day)) ? "sim" : " "
-                 
+                setAux(
+                  eventList.find(
+                    (item) => item.start.split("T").shift() === data.day
+                  )
+                )
+                  ? "🟢"
+                  : " "
               }}
             </p>
           </template>
         </el-calendar>
       </el-container>
-      <el-dialog
-        v-model="dialogVisible"
-        title="Events of the Day"
-        width="30%"
-      >
-        <div  v-for="item in eventsOfDay" :key="item.name">
-          <hr>
-          <h2 class="label">{{item.name}}</h2>
-          <h3 class="label">Duration: {{`ST: ${item.start.replace('T', ' ')} | FT: ${item.end.replace('T', ' ')}`}}</h3>
-          <h3 class="label">Description: {{item.description}}</h3>
-          <hr>
+      <el-dialog v-model="dialogVisible" title="Events of the Day" width="30%">
+        <div v-for="item in eventsOfDay" :key="item.name">
+          <hr />
+          <h2 class="label">{{ item.name }}</h2>
+          <h3 class="label">
+            Duration:
+            {{
+              `ST: ${item.start.replace("T", " ")} | FT: ${item.end.replace(
+                "T",
+                " "
+              )}`
+            }}
+          </h3>
+          <h3 class="label">Description: {{ item.description }}</h3>
+          <hr />
         </div>
         <template #footer>
           <span class="dialog-footer">
@@ -85,6 +98,7 @@ export default defineComponent({
   },
   async created() {
     this.eventList = await this.fillEventList();
+    this.authenticateUser();
   
   },
   methods: {
@@ -116,7 +130,7 @@ export default defineComponent({
           "description": "a food lesson about cook delicious dishes with lettuce"
         },
         {
-          "start": "2021-10-08T22:02",
+          "start": "2021-10-06T22:02",
           "end": "2021-10-06T22:02",
           "name": "another lettuce recipes",
           "description": "a food lesson about cook delicious dishes with lettuce"
@@ -127,11 +141,16 @@ export default defineComponent({
       return this.aux = any;
     },
     searchByMoreEvents(aux:any){
-
-      // console.log( aux);
       this.eventsOfDay = this.eventList.filter((item:any) => item.start.split('T').shift() === aux.start.split('T').shift());
       return '🟢'
       
+    },
+    async authenticateUser(){
+      await api.get(`/user/${localStorage.getItem('user_id')}`, 
+      {headers: {Authorization: "Bearer " + localStorage.getItem("token")}}).catch( 
+      () => { localStorage.setItem('token', '');
+      localStorage.setItem('user_id', '');
+      return window.alert('your session is invalid'), this.$router.push('login'); } );
     }
   },
 });
@@ -153,6 +172,6 @@ export default defineComponent({
 }
 .label {
   padding-top: 25px;
-  width: 100%
+  width: 100%;
 }
 </style>

@@ -20,7 +20,6 @@ export class LoginService {
 
     const { JWT_SECRET: secret, JTW_EXPIRATION: expiresIn } = process.env
     const token = await sign({}, secret, { subject: user.id.toString(), expiresIn })
-    console.log(user)
 
     return { token, userId: user.id + '' }
   };
