@@ -3,41 +3,50 @@ import Home from "../components/home.vue";
 import Login from "../components/login.vue";
 import Register from "../components/register.vue";
 import Event from "../components/event.vue";
+import User from "../components/user.vue";
+import Invite from "../components/invite.vue";
 import Page404 from "../components/page404.vue";
 
 
 const routes = [
   {
-    path: "/login",
-    name: "login",
-    component: Login,
-  },
-  {
-    path: "/register",
-    name: "register",
-    component: Register,
-  },
-  {
-    path: "/welcome",
-    name: "home",
-    component: Home,
-  },
-  {
     path: "/",
     name: "home",
     component: Home,
   },
-  {
-    path: "/event",
-    name: "event",
-    component: Event,
-  },
-
-  // {
-  //   path: "*",
-  //   name: '404',
-  //   component: Page404,
-  // }
+    // children: [
+      {
+        path: "/login",
+        name: "login",
+        component: Login,
+      },
+      {
+        path: "/register",
+        name: "register",
+        component: Register,
+      },
+      {
+        path: "/event",
+        name: "event",
+        component: Event,
+      },
+      {
+        path: "/user",
+        name: "user",
+        component: User,
+      },
+      {
+        path: "/invite",
+        name: "invite",
+        component: Invite,
+      },
+      // {
+      //   path: "*",
+      //   component: Page404,
+      // }
+    // ]
+  
+  
 ];
 
 const router = createRouter({

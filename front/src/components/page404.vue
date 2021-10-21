@@ -11,6 +11,10 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 export default defineComponent({
+    created(){
+      console.log("hi desu");
+      
+    },
     methods: {
         toHome(){
             return this.$router.push('home');

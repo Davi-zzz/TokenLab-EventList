@@ -76,7 +76,7 @@
   padding-top: 25px;
 }
 /* //todo */
-@media (max-width: 500px) {
+@media (max-width: 600px) {
 }
 .datepicker{
   -webkit-appearance: none;

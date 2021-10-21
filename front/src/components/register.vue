@@ -7,15 +7,15 @@
           </el-row>
           <el-row>
             <span class="label">First name: </span>
-          <el-input class="input" v-model="clear_input" placeholder="Please input" clearable />
+          <el-input class="input" v-model="clear_input" placeholder="Please input your first name" clearable />
           </el-row>
           <el-row>
             <span class="label">Last name: </span>
-          <el-input class="input" v-model="clear_input" placeholder="Please input" clearable />
+          <el-input class="input" v-model="clear_input" placeholder="Please input your last name" clearable />
           </el-row>
           <el-row>
             <span class="label">Email: </span>
-          <el-input class="input" v-model="clear_input" placeholder="Please input" clearable />
+          <el-input class="input" v-model="clear_input" placeholder="Please input your email" clearable />
           </el-row>
           <el-row type="flex">
              <span class="label">Password: </span>

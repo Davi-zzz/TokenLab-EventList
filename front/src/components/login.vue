@@ -112,6 +112,5 @@ export default defineComponent({
   padding-top: 25px;
 }
 /* //todo */
-@media (max-width: 500px) {
-}
+
 </style>
